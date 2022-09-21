@@ -8,6 +8,9 @@ import { User } from 'src/app/models/user';
 import { Transaction } from 'src/app/models/transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { tap } from 'rxjs/operators';
+import { AccountService } from 'src/app/services/account.service';
+import { Account } from 'src/app/models/account';
+import { Money } from 'src/app/models/money';
 
 @Component({
   selector: 'app-dashboard-user',
@@ -19,17 +22,23 @@ export class DashboardUserComponent implements OnInit {
   accountHolder$!: Observable<AccountHolder>;
   spinnerUser: boolean = false;
   spinnerTransaction: boolean = false;
+  spinnerAccount: boolean = false;
   transactions$!: Observable<Transaction[]>;
+  accounts$!: Observable<Account[]>;
+  totalBalance: Money = new Money('0', 'EUR');
+  activeAccount: number = -1;
 
   constructor(
     private accountHolderService: AccountHolderService,
     private authService: AuthService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private accountService: AccountService
   ) { }
 
   ngOnInit(): void {
     this.getAccountHolder();
     this.getTransactionsByUserId();
+    this.getAccountsByUserId();
   }
 
   getAccountHolder() {
@@ -50,6 +59,33 @@ export class DashboardUserComponent implements OnInit {
       }),
       tap(() => this.spinnerTransaction = false)
     );
+  }
+
+  getAccountsByUserId() {
+    this.spinnerAccount = true;
+    this.accounts$ = this.authService.user$.pipe(
+      mergeMap((user: User) => {
+        return this.accountService.getByUserId(user.id);
+      }),
+      tap((accounts: Account[]) => {
+        accounts.forEach((account: Account) => {
+          this.totalBalance.amount = (+this.totalBalance.amount + (+account.balance.amount)).toString();
+        });
+        this.spinnerAccount = false
+      })
+    );
+  }
+
+  showTransactionsByAccount(account: Account) {
+    this.spinnerTransaction = true;
+    if (account.iban) {
+      this.transactions$ = this.transactionService.findByIban(account.iban).pipe(
+        tap(() => this.spinnerTransaction = false)
+      );
+    } else {
+      this.getTransactionsByUserId();
+      this.spinnerTransaction = false;
+    }
   }
 
 }

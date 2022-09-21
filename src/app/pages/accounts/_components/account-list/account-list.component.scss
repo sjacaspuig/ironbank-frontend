@@ -17,3 +17,10 @@ nb-list-item {
 .button-container {
     margin-left: 36px;
 }
+
+.item {
+    line-height: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}

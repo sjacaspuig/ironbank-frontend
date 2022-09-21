@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './not-found.component';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
+import { NotFoundRoutingModule } from './not-found-routing.module';
 
 
 
@@ -12,7 +13,8 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
   imports: [
     CommonModule,
     NbCardModule,
-    NbButtonModule
+    NbButtonModule,
+    NotFoundRoutingModule
   ]
 })
 export class NotFoundModule { }

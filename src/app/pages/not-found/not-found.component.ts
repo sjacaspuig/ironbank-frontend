@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbMenuService } from '@nebular/theme';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
@@ -9,10 +9,10 @@ import { NbMenuService } from '@nebular/theme';
 export class NotFoundComponent {
 
   constructor(
-    private menuService: NbMenuService
+    private router: Router
   ) {}
 
   goToHome() {
-    this.menuService.navigateHome();
+    this.router.navigate(['/']);
   }
 }

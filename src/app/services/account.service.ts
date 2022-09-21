@@ -32,4 +32,8 @@ export class AccountService {
   public changeStatus(account: { iban: string, status: AccountStatus }): Observable<Account> {
     return this.httpClient.patch<Account>(this.userURL + '/change-status/' + account.iban, account, this.httpOptions);
   }
+
+  public getByUserId(accountHolderId: string): Observable<Account[]> {
+    return this.httpClient.get<Account[]>(this.userURL + '/user/' + accountHolderId);
+  }
 }

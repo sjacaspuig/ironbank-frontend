@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardUserComponent } from './dashboard-user.component';
 import { DashboardUserRoutingModule } from './dashboard-user-routing.module';
 import { LayoutTwoColumnsModule } from 'src/app/components/layout-two-columns/layout-two-columns.module';
-import { NbAccordionModule, NbCardModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
+import { NbAccordionModule, NbCardModule, NbIconModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
 
 
 
@@ -18,7 +18,8 @@ import { NbAccordionModule, NbCardModule, NbListModule, NbSpinnerModule } from '
     NbCardModule,
     NbListModule,
     NbAccordionModule,
-    NbSpinnerModule
+    NbSpinnerModule,
+    NbIconModule
   ]
 })
 export class DashboardUserModule { }
