@@ -15,7 +15,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [
+    // { title: 'Profile' }, // TODO: Add profile page
+    { title: 'Log out' }
+  ];
 
   constructor(
     private sidebarService: NbSidebarService,

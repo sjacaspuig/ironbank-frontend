@@ -46,4 +46,19 @@
             text-decoration: none;
         }
     }
+
+    a {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 40px;
+            margin-right: 8px;
+        }
+    }
+
+    iframe {
+        margin: 0;
+        width: 105px;
+    }
 }

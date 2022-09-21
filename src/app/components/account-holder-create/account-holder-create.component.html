@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-body>
 
-    <div class="title">New Customer</div>
+    <div class="title">New Account Holder</div>
 
     <nb-stepper #stepper>
       <nb-step [stepControl]="firstForm" label="Basic information">
@@ -90,7 +90,7 @@
           </div>
         </form>
       </nb-step>
-      <nb-step [stepControl]="fourthForm" label="Password" [hidden]="!hiddenCompleted && !showError">
+      <nb-step [stepControl]="fourthForm" [hidden]="!hiddenCompleted || !hiddenError" label="Password">
         <form [formGroup]="fourthForm" (ngSubmit)="onFourthSubmit()" class="step-container">
           <div class="input-group">
             <label>Password</label>
@@ -106,7 +106,7 @@
           </div>
         </form>
       </nb-step>
-      <nb-step [stepControl]="fourthForm" [hidden]="hiddenCompleted && !showError" label="Password">
+      <nb-step [stepControl]="fourthForm" [hidden]="hiddenCompleted" label="Password" [completed]="true">
         <div class="step-container">
           <h3>Welcome {{ userCreated?.firstName }} {{ userCreated?.lastName }}</h3>
           <h5>Thank you for registering with us.</h5>
@@ -114,7 +114,7 @@
           <button nbButton status="primary" (click)="stepper.reset(); tryAgain()">Create a new one</button>
         </div>
       </nb-step>
-      <nb-step [stepControl]="fourthForm" [hidden]="showError" label="Password">
+      <nb-step [stepControl]="fourthForm" [hidden]="hiddenError" label="Password" [completed]="true">
         <div class="step-container">
           <h3>Sorry, we can't create your account</h3>
           <h5>Please try again later.</h5>

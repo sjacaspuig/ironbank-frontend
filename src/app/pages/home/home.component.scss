@@ -32,3 +32,10 @@ a {
     height: 56px;
     min-height: 56px
 }
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}

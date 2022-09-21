@@ -1,9 +1,13 @@
 <div class="header-container">
   <div class="logo-container">
-    <a *ngIf="(authService.role$ | async ) !== 'public'" (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+    <a *ngIf="(authService.role$ | async ) !== 'public' && (authService.role$ | async ) !== 'user'"
+      (click)="toggleSidebar()" href="#" class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <a class="logo" href="#" (click)="navigateHome()">IronBank</a>
+    <a class="logo" href="#" (click)="navigateHome()">
+      <img src="./../../../assets/logo.png" alt="">
+      IronBank
+    </a>
   </div>
 
 </div>

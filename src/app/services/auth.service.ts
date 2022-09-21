@@ -33,7 +33,7 @@ export class AuthService {
     this.oauthService.loadDiscoveryDocument().then(() => this.oauthService.tryLogin())
       .then(() => {
         if (this.oauthService.getIdentityClaims()) {
-          this.user$.next(new User(this.getUsername(), this.getRole()));
+          this.user$.next(new User(this.getUsername(), this.getRole(), this.getUserId()));
           this.role$.next(this.getRole());
         }
       });
@@ -45,7 +45,7 @@ export class AuthService {
 
   public logout(): void {
     this.oauthService.logOut();
-    this.user$.next(new User('', 'public'));
+    this.user$.next(new User('', 'public', ''));
   }
 
   public getIsLogged(): boolean {
@@ -54,6 +54,10 @@ export class AuthService {
 
   public getUsername(): string {
     return (this.oauthService.getIdentityClaims() as any)['preferred_username'];
+  }
+
+  public getUserId(): string {
+    return (this.oauthService.getIdentityClaims() as any)['sub'];
   }
 
   public getRole(): Role {

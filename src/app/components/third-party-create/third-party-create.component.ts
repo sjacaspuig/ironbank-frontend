@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ThirdParty } from 'src/app/models/thirdParty';
+import { ThirdParty } from 'src/app/models/third-party';
 import { ThirdPartyService } from 'src/app/services/third-party.service';
 
 @Component({
@@ -11,10 +11,12 @@ import { ThirdPartyService } from 'src/app/services/third-party.service';
 })
 export class ThirdPartyCreateComponent implements OnInit {
 
+  @Output() refresh: EventEmitter<void> = new EventEmitter<void>();
+
   firstForm!: FormGroup;
   hiddenCompleted: boolean = true;
   showError: boolean = false;
-  adminCreated: ThirdParty | null = null;
+  thirdPartyCreated: ThirdParty | null = null;
   messageError: string = "An error has occurred, please try again later.";
 
   constructor(
@@ -36,17 +38,18 @@ export class ThirdPartyCreateComponent implements OnInit {
   }
 
   createThirdParty(): void {
-    const admin: ThirdParty = new ThirdParty(
+    const thirdParty: ThirdParty = new ThirdParty(
       undefined,
       this.firstForm.value.firstName,
       this.firstForm.value.lastName,
       this.firstForm.value.hashedKey
     );
 
-    this.thirdPartyService.create(admin).subscribe(
-      (admin: ThirdParty) => {
-        this.adminCreated = admin;
+    this.thirdPartyService.create(thirdParty).subscribe(
+      (thirdParty: ThirdParty) => {
+        this.thirdPartyCreated = thirdParty;
         this.hiddenCompleted = false;
+        this.refresh.emit();
       },
       (error: HttpErrorResponse) => {
         this.showError = true;

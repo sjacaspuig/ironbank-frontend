@@ -17,7 +17,7 @@ export class HomeGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
     const isLogged: boolean = this.authService.getIsLogged();
-    console.log('isLogged', isLogged);
+    console.log('isLogged: ', isLogged);
 
     if (isLogged) {
       const realRol: Role = this.authService.getRole();
@@ -25,9 +25,9 @@ export class HomeGuard implements CanActivate {
       if (realRol === 'user') {
         this.router.navigate(['/dashboard-user']);
       } else if (realRol === 'admin') {
-        this.router.navigate(['/dashboard-admin']);
+        this.router.navigate(['/users']);
       } else if (realRol === 'super-admin') {
-        this.router.navigate(['/dashboard-super-admin']);
+        this.router.navigate(['/admins']);
       } else {
         this.authService.logout();
         this.router.navigate(['/']);

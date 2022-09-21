@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountHolder } from 'src/app/models/accountHolder';
+import { AccountHolder } from 'src/app/models/account-holder';
 import { Address } from 'src/app/models/address';
 import { AccountHolderService } from 'src/app/services/account-holder.service';
 
@@ -12,12 +12,14 @@ import { AccountHolderService } from 'src/app/services/account-holder.service';
 })
 export class AccountHolderCreateComponent implements OnInit {
 
+  @Output() refresh: EventEmitter<void> = new EventEmitter<void>();
+
   firstForm!: FormGroup;
   secondForm!: FormGroup;
   thirdForm!: FormGroup;
   fourthForm!: FormGroup;
   hiddenCompleted: boolean = true;
-  showError: boolean = false;
+  hiddenError: boolean = true;
   userCreated: AccountHolder | null = null;
   messageError: string = "An error has occurred, please try again later.";
 
@@ -124,9 +126,10 @@ export class AccountHolderCreateComponent implements OnInit {
       (user: AccountHolder) => {
         this.hiddenCompleted = false;
         this.userCreated = user;
+        this.refresh.emit();
       },
       (error: HttpErrorResponse) => {
-        this.showError = true;
+        this.hiddenError = false;
 
         if (error.status === 409) {
           this.messageError = "The username or email is already in use.";
@@ -140,7 +143,7 @@ export class AccountHolderCreateComponent implements OnInit {
   tryAgain(): void {
     this.firstForm.reset();
     this.hiddenCompleted = true;
-    this.showError = false;
+    this.hiddenError = false;
   }
 
 }

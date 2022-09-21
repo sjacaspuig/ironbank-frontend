@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Admin } from 'src/app/models/admin';
 import { AdminService } from 'src/app/services/admin.service';
@@ -10,6 +10,8 @@ import { AdminService } from 'src/app/services/admin.service';
   styleUrls: ['./admin-create.component.scss']
 })
 export class AdminCreateComponent implements OnInit {
+
+  @Output() refresh: EventEmitter<void> = new EventEmitter<void>();
 
   firstForm!: FormGroup;
   hiddenCompleted: boolean = true;
@@ -52,6 +54,7 @@ export class AdminCreateComponent implements OnInit {
       (admin: Admin) => {
         this.adminCreated = admin;
         this.hiddenCompleted = false;
+        this.refresh.emit();
       },
       (error: HttpErrorResponse) => {
         this.showError = true;

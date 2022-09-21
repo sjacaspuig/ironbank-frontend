@@ -19,4 +19,12 @@ export class AdminService {
   public create(admin: Admin): Observable<Admin> {
     return this.httpClient.post<Admin>(this.userURL, admin, this.httpOptions);
   }
+
+  public getAll(): Observable<Admin[]> {
+    return this.httpClient.get<Admin[]>(this.userURL);
+  }
+
+  public deleteAdmin(id: string): Observable<void> {
+    return this.httpClient.delete<void>(this.userURL + '/' + id);
+  }
 }

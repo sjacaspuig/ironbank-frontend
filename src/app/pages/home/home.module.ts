@@ -5,6 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { AccountHolderCreateModule } from 'src/app/components/account-holder-create/account-holder-create.module';
+import { LayoutTwoColumnsModule } from 'src/app/components/layout-two-columns/layout-two-columns.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AccountHolderCreateModule } from 'src/app/components/account-holder-cre
     HomeRoutingModule,
     NbCardModule,
     NbButtonModule,
-    AccountHolderCreateModule
+    AccountHolderCreateModule,
+    LayoutTwoColumnsModule
   ]
 })
 export class HomeModule { }

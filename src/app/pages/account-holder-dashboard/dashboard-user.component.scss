@@ -1,0 +1,40 @@
+:host {
+    height: 100%;
+    display: block;
+}
+
+nb-card-body {
+    padding: 0;
+}
+
+nb-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.failed {
+    border: 1px solid var(--color-danger-600);
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+
+.pending {
+    border: 1px solid var(--color-warning-600);
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.carousel-accounts {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    nb-card {
+        width: 250px
+    }
+}

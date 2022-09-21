@@ -22,10 +22,8 @@ export class PagesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.authService.role$.pipe(
-      takeUntil(this.destroy$),
-      tap(role => this.pickupMEnu(role))
-    );
+    this.authService.role$.pipe(takeUntil(this.destroy$))
+      .subscribe(role => this.pickupMenu(role));
   }
 
   ngOnDestroy(): void {
@@ -33,7 +31,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  pickupMEnu(role: Role) {
+  pickupMenu(role: Role) {
     switch (role) {
       case 'super-admin':
         this.menu = SUPER_ADMIN_MENU;
