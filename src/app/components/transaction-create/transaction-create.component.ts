@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Money } from 'src/app/models/money';
 import { Transaction } from 'src/app/models/transaction';
+import { AuthService } from 'src/app/services/auth.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { TransactionType } from 'src/app/types/transaction-type';
 
@@ -13,15 +14,18 @@ import { TransactionType } from 'src/app/types/transaction-type';
 })
 export class TransactionCreateComponent implements OnInit {
 
+  @Output() refresh: EventEmitter<void> = new EventEmitter<void>();
+
   firstForm!: FormGroup;
   hiddenCompleted: boolean = true;
   showError: boolean = false;
   transactionCreated: Transaction | null = null;
-  messageError: string = "Please try again later.";
+  messageError: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -57,6 +61,7 @@ export class TransactionCreateComponent implements OnInit {
       this.firstForm.get('name')?.value,
       amount,
       type,
+      this.authService.getUserId(),
       this.firstForm.get('sourceAccount')?.value,
       this.firstForm.get('targetAccount')?.value,
       fee,
@@ -71,16 +76,20 @@ export class TransactionCreateComponent implements OnInit {
         if (transaction.status === 'COMPLETED') {
           this.transactionCreated = transaction;
           this.hiddenCompleted = false;
-        } else if (transaction.status === 'FAILED') {
-          this.messageError = transaction.failureReason ? transaction.failureReason : "Please try again later.";
-          this.showError = true;
         } else {
-          this.messageError = "Please try again later.";
+          this.messageError = transaction.failureReason ? transaction.failureReason : '';
           this.showError = true;
         }
 
+        this.refresh.emit();
+
       },
-      (error: HttpErrorResponse) => this.showError = true
+      (error: HttpErrorResponse) => {
+        const transaction: Transaction = error.error;
+
+        this.messageError = transaction.failureReason ? transaction.failureReason : '';
+        this.showError = true;
+      }
     );
   }
 

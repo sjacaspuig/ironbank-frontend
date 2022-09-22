@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthConfig, NullValidationHandler, OAuthService } from 'angular-oauth2-oidc';
 import { ReplaySubject } from 'rxjs';
 import { User } from '../models/user';
@@ -13,7 +14,8 @@ export class AuthService {
   public role$: ReplaySubject<Role> = new ReplaySubject<Role>(1);
 
   constructor(
-    private oauthService: OAuthService
+    private oauthService: OAuthService,
+    private router: Router
   ) { }
 
   private authConfig: AuthConfig = {

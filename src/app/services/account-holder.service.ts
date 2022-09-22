@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AccountHolder } from '../models/account-holder';
 
@@ -17,18 +17,29 @@ export class AccountHolderService {
   ) {}
 
   public create(accountHolder: AccountHolder): Observable<AccountHolder> {
-    return this.httpClient.post<AccountHolder>(this.userURL, accountHolder, this.httpOptions);
+    return this.httpClient.post<AccountHolder>(this.userURL, accountHolder, this.httpOptions).pipe(map((accountHolder: AccountHolder) => this.formatDateToUTC(accountHolder)));
   }
 
   public getAll(): Observable<AccountHolder[]> {
-    return this.httpClient.get<AccountHolder[]>(this.userURL);
+    return this.httpClient.get<AccountHolder[]>(this.userURL).pipe(map((accountHolders: AccountHolder[]) => this.formatDatesToUTC(accountHolders)));
   }
 
   public deleteAccountHolder(id: string): Observable<AccountHolder> {
-    return this.httpClient.delete<AccountHolder>(this.userURL + '/' + id, this.httpOptions);
+    return this.httpClient.delete<AccountHolder>(this.userURL + '/' + id, this.httpOptions).pipe(map((accountHolder: AccountHolder) => this.formatDateToUTC(accountHolder)));
   }
 
   public getById(id: string): Observable<AccountHolder> {
-    return this.httpClient.get<AccountHolder>(this.userURL + '/' + id);
-  } 
+    return this.httpClient.get<AccountHolder>(this.userURL + '/' + id).pipe(map((accountHolder: AccountHolder) => this.formatDateToUTC(accountHolder)));
+  }
+
+  private formatDatesToUTC(accountHolders: AccountHolder[]): AccountHolder[] {
+    return accountHolders.map((accountHolder: AccountHolder) => this.formatDateToUTC(accountHolder));
+  }
+
+  private formatDateToUTC(accountHolder: AccountHolder): AccountHolder { 
+    if (accountHolder?.birthDate) {
+      accountHolder.birthDate = new Date(new Date(accountHolder.birthDate).toUTCString());
+    }
+    return accountHolder;
+  }
 }

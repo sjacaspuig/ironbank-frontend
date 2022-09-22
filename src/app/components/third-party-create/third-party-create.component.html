@@ -22,7 +22,6 @@
         <div class="step-container" *ngIf="!hiddenCompleted && !showError">
             <h3>Welcome {{ thirdPartyCreated?.firstName }} {{ thirdPartyCreated?.lastName }}</h3>
             <h5>Thank you for registering with us.</h5>
-            <h6>Now you can login with your credentials</h6>
             <button nbButton status="primary" (click)="tryAgain()">Create a new one</button>
         </div>
 

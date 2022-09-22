@@ -29,11 +29,13 @@
             <h3>Your account has been created</h3>
             <h5>The account number is {{ accountCreated?.iban }}.</h5>
             <h6>The type of account is {{ accountCreated?.accountType }}</h6>
+            <h6 *ngIf="accountCreated?.accountType === 'STUDENT_CHECKING'">{{ messageStudentAccount }}</h6>
             <button nbButton status="primary" (click)="tryAgain()">Create a new one</button>
         </div>
 
         <div class="step-container" *ngIf="showError">
             <h3>Sorry, we can't create the account</h3>
+            <h5>{{ messageError }}</h5>
             <h5>Please try again later.</h5>
             <button nbButton status="primary" (click)="tryAgain()">Try again</button>
         </div>

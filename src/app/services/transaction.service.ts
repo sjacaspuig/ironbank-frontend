@@ -18,7 +18,7 @@ export class TransactionService {
   ) {}
 
   public create(transaction: Transaction): Observable<Transaction> {
-    return this.httpClient.post<Transaction>(this.userURL, transaction, this.httpOptions);
+    return this.httpClient.post<Transaction>(this.userURL, transaction, this.httpOptions).pipe(map((transaction: Transaction) => this.formatDateToUTC(transaction)));
   }
 
   public getAll(): Observable<Transaction[]> {
@@ -27,7 +27,8 @@ export class TransactionService {
         return accounts.sort((a: Transaction, b: Transaction) => {
           return a.id && b.id ? b.id - a.id : 0;
         });
-      })
+      }),
+      map((transactions: Transaction[]) => this.formatDatesToUTC(transactions))
     );
   }
 
@@ -37,7 +38,8 @@ export class TransactionService {
         return accounts.sort((a: Transaction, b: Transaction) => {
           return a.id && b.id ? b.id - a.id : 0;
         });
-      })
+      }),
+      map((transactions: Transaction[]) => this.formatDatesToUTC(transactions))
     );
   }
 
@@ -47,7 +49,19 @@ export class TransactionService {
         return accounts.sort((a: Transaction, b: Transaction) => {
           return a.id && b.id ? b.id - a.id : 0;
         });
-      })
+      }),
+      map((transactions: Transaction[]) => this.formatDatesToUTC(transactions))
     );
+  }
+
+  private formatDatesToUTC(transactions: Transaction[]): Transaction[] {
+    return transactions.map((transaction: Transaction) => this.formatDateToUTC(transaction));
+  }
+
+  private formatDateToUTC(transaction: Transaction): Transaction { 
+    if (transaction?.transactionDate) {
+      transaction.transactionDate = new Date(new Date(transaction.transactionDate).toUTCString());
+    }
+    return transaction;
   }
 }

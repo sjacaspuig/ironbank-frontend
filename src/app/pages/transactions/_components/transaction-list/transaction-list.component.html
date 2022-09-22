@@ -24,6 +24,7 @@
                     <div class="item" *ngIf="transaction?.name"><b>Name: </b>{{ transaction.name }}</div>
                     <div class="item" *ngIf="transaction?.transactionDate"><b>Date: </b>{{ transaction.transactionDate | date:'medium' }}</div>
                     <div class="item" *ngIf="transaction?.hashedKey"><b>Hashed key: </b>{{ transaction.hashedKey }}</div>
+                    <div class="item"><b>Admin: </b><span [ngClass]="{'byHimself': currentUserId === transaction.adminId }">{{ transaction.adminId }}</span></div>
                 </div>
             </app-layout-two-columns>
         </nb-list-item>

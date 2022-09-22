@@ -18,6 +18,7 @@ export class CheckingAccountCreateComponent implements OnInit {
   showError: boolean = false;
   accountCreated: CheckingAccount | null = null;
   messageError: string = "Please try again later.";
+  messageStudentAccount: string = "The system created a student account because the primary owner is younger than 24 years old.";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,6 +59,7 @@ export class CheckingAccountCreateComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         this.showError = true;
+        this.messageError = error.error.message;
       }
     );
   }

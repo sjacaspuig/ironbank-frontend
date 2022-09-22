@@ -6,7 +6,7 @@
             <nb-list-item *ngFor="let accountHolder of (accountHolders$ | async)">
                 <nb-user
                     [name]="accountHolder.firstName + ' ' + accountHolder.lastName"
-                    [title]="accountHolder.id ? accountHolder.id : ''">
+                    [title]="accountHolder.id ? accountHolder.id + ' - ' + (accountHolder.birthDate | date:'medium') : ''">
                 </nb-user>
             </nb-list-item>
         </nb-list>

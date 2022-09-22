@@ -16,11 +16,13 @@ export class Transaction {
     public concept?: string | undefined;
     public failureReason?: string | undefined;
     public type: TransactionType;
+    public adminId: string;
 
     constructor(
         name: string,
         amount: Money,
         type: TransactionType,
+        adminId: string,
         sourceAccount: string | undefined,
         targetAccount: string | undefined,
         fee: Money | undefined,
@@ -31,6 +33,7 @@ export class Transaction {
         transactionDate?: Date | undefined,
         status?: TransactionStatus | undefined,
         failureReason?: string | undefined,
+
     ) {
         this.id = id;
         this.sourceAccount = sourceAccount;
@@ -45,6 +48,7 @@ export class Transaction {
         this.concept = concept;
         this.failureReason = failureReason;
         this.type = type;
+        this.adminId = adminId;
     }
     
     

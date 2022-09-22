@@ -1,5 +1,5 @@
 <app-layout-two-columns>
-    <app-transaction-create left></app-transaction-create>
+    <app-transaction-create left (refresh)="getThirdParties(); getAccounts()"></app-transaction-create>
     <nb-accordion right>
         <nb-accordion-item>
             <nb-accordion-item-header>
@@ -7,7 +7,9 @@
             </nb-accordion-item-header>
             <nb-accordion-item-body>
                 <nb-list>
-                    <nb-list-item *ngFor="let account of (accounts$ | async)">
+                    <nb-list-item *ngFor="let account of (accounts$ | async)" [ngClass]="{
+                        'frozen': account?.status === 'FROZEN'
+                    }">
                         <app-layout-two-columns>
                             <div left>
                                 <div class="item" *ngIf="account?.iban"><b>IBAN: </b>{{ account.iban }}</div>
